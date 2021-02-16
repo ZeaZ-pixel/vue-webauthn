@@ -1,8 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
-const authn = require('./authn')
-const webauthn = require('./webauthn')
+const authn = require('./justAuthn/authn')
+const webauthn = require('./webauthnServer/webauthn')
 const app = express();
 const bodyParser = require('body-parser')
 require('dotenv').config()

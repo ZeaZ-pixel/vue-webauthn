@@ -10,8 +10,8 @@ import {_fetch, registerCredential, unregisterCredential} from "../../utils/weba
 
 export default {
 name: "btnForAbuReg",
+props:['username'],
 data: () => ({
-    username: localStorage.getItem('username'),
     isCreated: false,
   }),
 methods: {
@@ -29,6 +29,7 @@ methods: {
     try {
       console.log(res.id)
       await unregisterCredential(res.id);
+      this.isCreated = false;
     } catch (e) {
       alert(e);
     }

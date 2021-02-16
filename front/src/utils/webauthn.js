@@ -26,7 +26,7 @@ export const _fetch = async (path, payload = '') => {
 export const registerCredential = async (username) => {
     const param = {
         username,
-        opts : {
+            opts : {
             attestation: 'none',
             authenticatorSelection: {
                 authenticatorAttachment: 'platform',
@@ -55,7 +55,7 @@ export const registerCredential = async (username) => {
 
 export const unregisterCredential = async credId => {
     localStorage.removeItem("credId");
-    return _fetch(`/webauthn/removeKey?credId=${encodeURIComponent(credId)}`);
+    return _fetch(`http://localhost:3001/webauthn/removeKey?credId=${encodeURIComponent(credId)}`);
 };
 
 export const authenticate = async () => {

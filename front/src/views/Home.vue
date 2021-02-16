@@ -33,7 +33,7 @@
               <v-btn color="primary" @click="submit">Logout</v-btn>
                 <v-spacer></v-spacer>
                 <v-spacer></v-spacer>
-                <BtnForAbuReg/>
+                <BtnForAbuReg :username="username"/>
               </v-card-actions>
             </v-card>
           </v-col>

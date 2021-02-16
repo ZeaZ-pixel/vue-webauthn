@@ -7,13 +7,6 @@ const mysql = require('mysql');
 const fs = require('fs');
 const low = require('lowdb');
 
-const dba = mysql.createConnection({
-    user: "root",
-    host: process.env.HOSTNAME,
-    password: "root",
-    database: "registration",
-});
-
 if (!fs.existsSync('./.data')) {
     fs.mkdirSync('./.data');
 }
@@ -40,9 +33,7 @@ const csrfCheck = (req, res, next) => {
 };
 
 router.get('/signout', (req, res) => {
-    // Remove the session
     delete req.session.username;
-    // Redirect to `/`
     res.redirect(302, '/');
 });
 
@@ -56,13 +47,14 @@ router.post('/getKeys', csrfCheck,  (req, res) => {
 
 router.post('/removeKey', csrfCheck, (req, res) => {
     const credId = req.query.credId;
+    console.log(credId);
     const username = req.session.username;
     const user = db.get('users').find({ username: username }).value();
 
     const newCreds = user.credentials.filter((cred) => {
-        // Leave credential ids that do not match
         return cred.credId !== credId;
     });
+
 
     db.get('users')
         .find({ username: username })
@@ -175,7 +167,7 @@ router.post('/registerResponse', csrfCheck, async (req, res) => {
     let verification;
     try {
         try {
-             verification = await fido2.verifyAttestationResponse({
+            verification = await fido2.verifyAttestationResponse({
                 credential: body,
                 expectedChallenge,
                 expectedOrigin,
@@ -279,12 +271,12 @@ router.post('/signinResponse', csrfCheck, async (req, res) => {
         let verification;
         try {
             verification = fido2.verifyAssertionResponse({
-            credential: body,
-            expectedChallenge,
-            expectedOrigin,
-            expectedRPID,
-            authenticator: credential,
-        });
+                credential: body,
+                expectedChallenge,
+                expectedOrigin,
+                expectedRPID,
+                authenticator: credential,
+            });
         } catch (error) {
             console.error(error);
             return res.status(400).send({ error: error.message });

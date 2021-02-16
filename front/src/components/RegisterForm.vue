@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import {_fetch} from "../utils/webauthn";
 
 export default {
     name: 'RegisterForm',
